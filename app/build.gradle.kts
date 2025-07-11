@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.androidx.room)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.moshi)
