@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ru.work_mate.rickandmorty.data.model.CharacterGender
+import ru.work_mate.rickandmorty.data.model.CharacterSpecies
 import ru.work_mate.rickandmorty.data.model.CharacterStatus
 import ru.work_mate.rickandmorty.data.model.RMCharacter
 
@@ -37,7 +38,7 @@ interface CharacterDao {
     fun getFilteredCharactersPaged(
         name: String?,
         status: CharacterStatus?,
-        species: String?,
+        species: CharacterSpecies?,
         type: String?,
         gender: CharacterGender?
     ): PagingSource<Int, RMCharacter>

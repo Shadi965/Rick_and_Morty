@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import ru.work_mate.rickandmorty.data.model.CharacterGender
+import ru.work_mate.rickandmorty.data.model.CharacterSpecies
 import ru.work_mate.rickandmorty.data.model.CharacterStatus
 import ru.work_mate.rickandmorty.data.model.Location
 import ru.work_mate.rickandmorty.data.model.Origin
@@ -73,6 +74,20 @@ class Converters(private val moshi: Moshi) {
             CharacterGender.valueOf(value)
         } catch (e: IllegalArgumentException) {
             CharacterGender.Unknown
+        }
+    }
+
+    @TypeConverter
+    fun fromCharacterSpecies(species: CharacterSpecies): String {
+        return species.name
+    }
+
+    @TypeConverter
+    fun toCharacterSpecies(value: String): CharacterSpecies {
+        return try {
+            CharacterSpecies.valueOf(value)
+        } catch (e: IllegalArgumentException) {
+            CharacterSpecies.Unknown
         }
     }
 }

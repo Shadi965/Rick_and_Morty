@@ -12,7 +12,7 @@ data class RMCharacter(
     val id: Int,
     val name: String,
     val status: CharacterStatus,
-    val species: String,
+    val species: CharacterSpecies,
     val type: String,
     val gender: CharacterGender,
     val origin: Origin,
@@ -48,6 +48,20 @@ data class Info(
     val next: String?,
     val prev: String?
 )
+
+@JsonClass(generateAdapter = false)
+enum class CharacterSpecies(val str: String = "") {
+    Alien,
+    Animal,
+    Cronenberg,
+    Disease,
+    Human,
+    Humanoid,
+    @Json(name = "Mythological Creature") MythologicalCreature("Mythological Creature"),
+    Poopybutthole,
+    Robot,
+    @Json(name = "unknown") Unknown
+}
 
 @JsonClass(generateAdapter = false)
 enum class CharacterStatus {

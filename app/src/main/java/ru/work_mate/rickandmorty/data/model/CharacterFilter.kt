@@ -3,7 +3,7 @@ package ru.work_mate.rickandmorty.data.model
 data class CharacterFilter(
     val name: String? = null,
     val status: CharacterStatus? = null,
-    val species: String? = null,
+    val species: CharacterSpecies? = null,
     val type: String? = null,
     val gender: CharacterGender? = null
 ) {
@@ -11,7 +11,7 @@ data class CharacterFilter(
         val queryMap = mutableMapOf<String, String>()
         name?.let { queryMap["name"] = it }
         status?.let { queryMap["status"] = it.name }
-        species?.let { queryMap["species"] = it }
+        species?.let { queryMap["species"] = it.str }
         type?.let { queryMap["type"] = it }
         gender?.let { queryMap["gender"] = it.name }
         return queryMap
