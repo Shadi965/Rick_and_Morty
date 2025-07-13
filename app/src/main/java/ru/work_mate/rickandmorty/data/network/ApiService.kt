@@ -5,6 +5,8 @@ import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.work_mate.rickandmorty.data.model.ApiResponse
 
+const val BASE_URL = "https://rickandmortyapi.com/api/"
+
 interface ApiService {
     @GET("character")
     suspend fun getCharacters(

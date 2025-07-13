@@ -1,4 +1,4 @@
-package ru.work_mate.rickandmorty.data.di
+package ru.work_mate.rickandmorty.di
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

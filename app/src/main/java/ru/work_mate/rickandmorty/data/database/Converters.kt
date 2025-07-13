@@ -1,15 +1,18 @@
 package ru.work_mate.rickandmorty.data.database
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import ru.work_mate.rickandmorty.data.model.CharacterGender
-import ru.work_mate.rickandmorty.data.model.CharacterSpecies
-import ru.work_mate.rickandmorty.data.model.CharacterStatus
+import ru.work_mate.rickandmorty.data.model.CharacterGenderData
+import ru.work_mate.rickandmorty.data.model.CharacterSpeciesData
+import ru.work_mate.rickandmorty.data.model.CharacterStatusData
 import ru.work_mate.rickandmorty.data.model.Location
 import ru.work_mate.rickandmorty.data.model.Origin
+import javax.inject.Inject
 
-class Converters(private val moshi: Moshi) {
+@ProvidedTypeConverter
+class Converters @Inject constructor(private val moshi: Moshi) {
 
     @TypeConverter
     fun fromStringList(value: List<String>): String {
@@ -50,44 +53,44 @@ class Converters(private val moshi: Moshi) {
     }
 
     @TypeConverter
-    fun fromCharacterStatus(status: CharacterStatus): String {
+    fun fromCharacterStatus(status: CharacterStatusData): String {
         return status.name
     }
 
     @TypeConverter
-    fun toCharacterStatus(value: String): CharacterStatus {
+    fun toCharacterStatus(value: String): CharacterStatusData {
         return try {
-            CharacterStatus.valueOf(value)
-        } catch (e: IllegalArgumentException) {
-            CharacterStatus.Unknown
+            CharacterStatusData.valueOf(value)
+        } catch (_: IllegalArgumentException) {
+            CharacterStatusData.Unknown
         }
     }
 
     @TypeConverter
-    fun fromCharacterGender(gender: CharacterGender): String {
+    fun fromCharacterGender(gender: CharacterGenderData): String {
         return gender.name
     }
 
     @TypeConverter
-    fun toCharacterGender(value: String): CharacterGender {
+    fun toCharacterGender(value: String): CharacterGenderData {
         return try {
-            CharacterGender.valueOf(value)
-        } catch (e: IllegalArgumentException) {
-            CharacterGender.Unknown
+            CharacterGenderData.valueOf(value)
+        } catch (_: IllegalArgumentException) {
+            CharacterGenderData.Unknown
         }
     }
 
     @TypeConverter
-    fun fromCharacterSpecies(species: CharacterSpecies): String {
+    fun fromCharacterSpecies(species: CharacterSpeciesData): String {
         return species.name
     }
 
     @TypeConverter
-    fun toCharacterSpecies(value: String): CharacterSpecies {
+    fun toCharacterSpecies(value: String): CharacterSpeciesData {
         return try {
-            CharacterSpecies.valueOf(value)
-        } catch (e: IllegalArgumentException) {
-            CharacterSpecies.Unknown
+            CharacterSpeciesData.valueOf(value)
+        } catch (_: IllegalArgumentException) {
+            CharacterSpeciesData.Unknown
         }
     }
 }

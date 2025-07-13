@@ -2,10 +2,10 @@ package ru.work_mate.rickandmorty.data.model
 
 data class CharacterFilter(
     val name: String? = null,
-    val status: CharacterStatus? = null,
-    val species: CharacterSpecies? = null,
+    val status: CharacterStatusData? = null,
+    val species: CharacterSpeciesData? = null,
     val type: String? = null,
-    val gender: CharacterGender? = null
+    val gender: CharacterGenderData? = null
 ) {
     fun toQueryMap(): Map<String, String> {
         val queryMap = mutableMapOf<String, String>()

@@ -7,14 +7,14 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 @Entity(tableName = "characters")
-data class RMCharacter(
+data class CharacterData(
     @PrimaryKey
     val id: Int,
     val name: String,
-    val status: CharacterStatus,
-    val species: CharacterSpecies,
+    val status: CharacterStatusData,
+    val species: CharacterSpeciesData,
     val type: String,
-    val gender: CharacterGender,
+    val gender: CharacterGenderData,
     val origin: Origin,
     val location: Location,
     val image: String,
@@ -38,7 +38,7 @@ data class Location(
 @JsonClass(generateAdapter = true)
 data class ApiResponse(
     val info: Info,
-    val results: List<RMCharacter>
+    val results: List<CharacterData>
 )
 
 @JsonClass(generateAdapter = true)
@@ -50,13 +50,13 @@ data class Info(
 )
 
 @JsonClass(generateAdapter = false)
-enum class CharacterSpecies(val str: String = "") {
+enum class CharacterSpeciesData(val str: String = "") {
+    Human,
+    Humanoid,
     Alien,
     Animal,
     Cronenberg,
     Disease,
-    Human,
-    Humanoid,
     @Json(name = "Mythological Creature") MythologicalCreature("Mythological Creature"),
     Poopybutthole,
     Robot,
@@ -64,16 +64,16 @@ enum class CharacterSpecies(val str: String = "") {
 }
 
 @JsonClass(generateAdapter = false)
-enum class CharacterStatus {
+enum class CharacterStatusData {
     Alive,
     Dead,
     @Json(name = "unknown") Unknown
 }
 
 @JsonClass(generateAdapter = false)
-enum class CharacterGender {
-    Female,
+enum class CharacterGenderData {
     Male,
+    Female,
     Genderless,
     @Json(name = "unknown") Unknown
 }

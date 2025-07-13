@@ -1,4 +1,4 @@
-package ru.work_mate.rickandmorty.data.di
+package ru.work_mate.rickandmorty.di
 
 import android.content.Context
 import androidx.room.Room
@@ -17,15 +17,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
+    // TODO: Проверить другой способ @Inject в Converters
+    @Provides
+    fun provideConverters(moshi: Moshi): Converters {
+        return Converters(moshi)
+    }
+
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context, moshi: Moshi): AppDatabase {
+    fun provideDatabase(@ApplicationContext context: Context, converters: Converters): AppDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
             AppDatabase::class.java,
             "rick_morty.db"
         )
-            .addTypeConverter(Converters(moshi))
+            .addTypeConverter(converters)
             .fallbackToDestructiveMigration(true)
             .build()
     }
