@@ -1,5 +1,6 @@
 package ru.work_mate.rickandmorty.data.model
 
+import ru.work_mate.rickandmorty.domain.model.CharacterFilter
 import ru.work_mate.rickandmorty.domain.model.CharacterGender
 import ru.work_mate.rickandmorty.domain.model.CharacterInfo
 import ru.work_mate.rickandmorty.domain.model.CharacterSpecies
@@ -71,3 +72,11 @@ fun CharacterGender.toCharacterGenderData(): CharacterGenderData = when (this) {
     CharacterGender.Genderless -> CharacterGenderData.Genderless
     CharacterGender.Unknown -> CharacterGenderData.Unknown
 }
+
+fun CharacterFilter.toCharacterFilterData() = CharacterFilterData(
+    name = name,
+    status = status?.toCharacterStatusData(),
+    species = species?.toCharacterSpeciesData(),
+    type = type,
+    gender = gender?.toCharacterGenderData(),
+)

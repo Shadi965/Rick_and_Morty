@@ -9,7 +9,7 @@ import retrofit2.HttpException
 import ru.work_mate.rickandmorty.data.database.AppDatabase
 import ru.work_mate.rickandmorty.data.database.CharacterDao
 import ru.work_mate.rickandmorty.data.model.CharacterData
-import ru.work_mate.rickandmorty.data.model.CharacterFilter
+import ru.work_mate.rickandmorty.data.model.CharacterFilterData
 import ru.work_mate.rickandmorty.data.network.ApiService
 import java.io.IOException
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class CharacterRemoteMediator @Inject constructor(
     private val database: AppDatabase,
     private val characterDao: CharacterDao,
     private val pageStore: CharacterRepositoryImpl.PageStore,
-    private val filter: CharacterFilter = CharacterFilter()
+    private val filter: CharacterFilterData = CharacterFilterData()
 ) : RemoteMediator<Int, CharacterData>() {
 
     override suspend fun load(

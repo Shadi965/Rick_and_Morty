@@ -1,6 +1,6 @@
 package ru.work_mate.rickandmorty.data.model
 
-data class CharacterFilter(
+data class CharacterFilterData(
     val name: String? = null,
     val status: CharacterStatusData? = null,
     val species: CharacterSpeciesData? = null,
@@ -18,6 +18,6 @@ data class CharacterFilter(
     }
 
     fun hasFilters(): Boolean {
-        return name != null || status != null || species != null || type != null || gender != null
+        return !name.isNullOrBlank() || status != null || species != null || !type.isNullOrBlank() || gender != null
     }
 }

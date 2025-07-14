@@ -9,16 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.work_mate.rickandmorty.data.database.AppDatabase
 import ru.work_mate.rickandmorty.data.database.CharacterDao
-import ru.work_mate.rickandmorty.data.model.CharacterFilter
-import ru.work_mate.rickandmorty.data.model.toCharacterGenderData
+import ru.work_mate.rickandmorty.data.model.CharacterFilterData
+import ru.work_mate.rickandmorty.data.model.toCharacterFilterData
 import ru.work_mate.rickandmorty.data.model.toCharacterInfo
-import ru.work_mate.rickandmorty.data.model.toCharacterSpeciesData
-import ru.work_mate.rickandmorty.data.model.toCharacterStatusData
 import ru.work_mate.rickandmorty.data.network.ApiService
-import ru.work_mate.rickandmorty.domain.model.CharacterGender
+import ru.work_mate.rickandmorty.domain.model.CharacterFilter
 import ru.work_mate.rickandmorty.domain.model.CharacterInfo
-import ru.work_mate.rickandmorty.domain.model.CharacterSpecies
-import ru.work_mate.rickandmorty.domain.model.CharacterStatus
 import ru.work_mate.rickandmorty.domain.repository.CharacterRepository
 import javax.inject.Inject
 
@@ -30,19 +26,9 @@ class CharacterRepositoryImpl @Inject constructor(
 ) : CharacterRepository {
 
     override fun getCharacters(
-        name: String?,
-        type: String?,
-        status: CharacterStatus?,
-        species: CharacterSpecies?,
-        gender: CharacterGender?,
+        characterFilter: CharacterFilter?
     ): Flow<PagingData<CharacterInfo>> {
-        val filter = CharacterFilter(
-            name = name,
-            status = status?.toCharacterStatusData(),
-            species = species?.toCharacterSpeciesData(),
-            type = type,
-            gender = gender?.toCharacterGenderData()
-        )
+        val filter = characterFilter?.toCharacterFilterData() ?: CharacterFilterData()
 
         return Pager(
             config = PagingConfig(
