@@ -57,18 +57,17 @@ class CharacterRepositoryImpl @Inject constructor(
                 filter = filter
             ),
             pagingSourceFactory = {
-                // TODO:
-//                    if (filter.hasFilters()) {
-//                        characterDao.getFilteredCharactersPaged(
-//                            name = filter.name,
-//                            status = filter.status,
-//                            species = filter.species,
-//                            type = filter.type,
-//                            gender = filter.gender
-//                        )
-//                    } else {
-                characterDao.getCharactersPaged()
-//                    }
+                if (filter.hasFilters()) {
+                    characterDao.getFilteredCharactersPaged(
+                        name = filter.name,
+                        status = filter.status,
+                        species = filter.species,
+                        type = filter.type,
+                        gender = filter.gender
+                    )
+                } else {
+                    characterDao.getCharactersPaged()
+                }
             }
         ).flow.map { pagingData ->
             pagingData.map { it.toCharacterInfo() }
