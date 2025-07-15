@@ -32,16 +32,12 @@ class CharacterRemoteMediator @Inject constructor(
                 pageStore.nextPage = 1
                 1
             }
+
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
             LoadType.APPEND -> {
                 pageStore.nextPage ?: return MediatorResult.Success(endOfPaginationReached = true)
             }
         }
-
-        // TODO:
-        //if (!networkUtils.isNetworkAvailable()) {
-        //    return MediatorResult.Success(endOfPaginationReached = false)
-        //}
 
         try {
             val response = apiService.getCharacters(
@@ -64,6 +60,9 @@ class CharacterRemoteMediator @Inject constructor(
         } catch (ex: IOException) {
             return MediatorResult.Error(ex)
         } catch (ex: HttpException) {
+            if (ex.code() == 404)
+                return MediatorResult.Success(endOfPaginationReached = true)
+
             return MediatorResult.Error(ex)
         }
     }
