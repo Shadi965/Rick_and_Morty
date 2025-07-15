@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import ru.work_mate.rickandmorty.ui.components.ErrorState
 import ru.work_mate.rickandmorty.ui.components.LoadingIndicator
 import ru.work_mate.rickandmorty.ui.components.NetworkStatusIndicator
 
@@ -75,6 +76,7 @@ fun CharacterListScreen(
                     message = "Loading characters..."
                 )
             }
+
             isEmpty -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -83,6 +85,12 @@ fun CharacterListScreen(
                     Text("There is nothing to show here")
                 }
             }
+
+            (!isNetworkAvailable || isApiError) && characters.itemCount == 0 -> ErrorState(
+                message = "Connection Error",
+                onRetry = { characters.refresh() }
+            )
+
             else -> {
                 PullToRefreshBox(
                     isRefreshing = false,
