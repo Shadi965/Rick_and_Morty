@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,6 +38,12 @@ fun CharacterListScreen(
     val isNetworkAvailable by viewModel.networkAvailable.collectAsState()
 
     val isApiError = characters.loadState.refresh is LoadState.Error
+    val isLoading = characters.loadState.refresh is LoadState.Loading
+            && characters.itemCount != 0
+
+    val isEmpty = characters.itemCount == 0 &&
+            characters.loadState.refresh is LoadState.NotLoading &&
+            characters.loadState.append.endOfPaginationReached
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -63,13 +68,27 @@ fun CharacterListScreen(
             onToggleExpanded = viewModel::toggleFilterExpanded
         )
 
-        if (characters.loadState.refresh !is LoadState.Loading)
-            PullToRefreshBox(
-                isRefreshing = characters.loadState.refresh is LoadState.Loading,
-                onRefresh = { characters.refresh() },
-                modifier = Modifier.fillMaxSize()
-            ) {
-                if (characters.loadState.refresh != LoadState.Loading) {
+        when {
+            isLoading -> {
+                LoadingIndicator(
+                    modifier = Modifier.fillMaxSize(),
+                    message = "Loading characters..."
+                )
+            }
+            isEmpty -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("There is nothing to show here")
+                }
+            }
+            else -> {
+                PullToRefreshBox(
+                    isRefreshing = false,
+                    onRefresh = { characters.refresh() },
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(16.dp),
@@ -90,10 +109,6 @@ fun CharacterListScreen(
                     }
                 }
             }
-        else
-            LoadingIndicator(
-                modifier = Modifier.fillMaxSize(),
-                message = "Loading characters..."
-            )
+        }
     }
 }
