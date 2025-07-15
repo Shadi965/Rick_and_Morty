@@ -55,7 +55,7 @@ fun CharacterFilterSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         // Поле поиска с кнопкой разворачивания
         Row(
