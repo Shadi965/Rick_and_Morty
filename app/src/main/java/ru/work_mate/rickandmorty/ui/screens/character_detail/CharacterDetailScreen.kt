@@ -1,6 +1,8 @@
 package ru.work_mate.rickandmorty.ui.screens.character_detail
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +16,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -63,7 +67,6 @@ fun CharacterDetailScreen(
             }
         )
 
-
         if (character != null)
             CharacterDetailContent(character!!)
         else
@@ -103,89 +106,117 @@ private fun CharacterDetailContent(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        // Status
-        DetailRow(
-            label = "Status",
-            value = character.status.name,
-            status = character.status
-        )
-
-        // Species
-        DetailRow(
-            label = "Species",
-            value = character.species.name
-        )
-
-        // Type
-        if (character.type.isNotEmpty()) {
-            DetailRow(
-                label = "Type",
-                value = character.type
-            )
-        }
-
-        // Gender
-        DetailRow(
-            label = "Gender",
-            value = character.gender.name
-        )
-
-        // Origin
-        DetailRow(
-            label = "Origin",
-            value = character.origin
-        )
-
-        // Location
-        DetailRow(
-            label = "Last known location",
-            value = character.location
-        )
-
-        // Episodes count
-        DetailRow(
-            label = "Episodes appeared",
-            value = "${character.episode.size} episodes"
-        )
+        // Grouped Character Information
+        CharacterInfoCard(character = character)
     }
 }
 
-// TODO: Некрасиво
 @Composable
-private fun DetailRow(
-    label: String,
-    value: String,
-    modifier: Modifier = Modifier,
-    // Todo: От этого избавиться
-    status: CharacterStatus? = null,
+private fun CharacterInfoCard(
+    character: CharacterInfo,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            // Основная информация в две колонки
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    DetailItem(
+                        label = "Status",
+                        value = character.status.name,
+                        status = character.status
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    DetailItem(
+                        label = "Species",
+                        value = character.species.name
+                    )
+
+                    if (character.type.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        DetailItem(
+                            label = "Type",
+                            value = character.type
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    DetailItem(
+                        label = "Gender",
+                        value = character.gender.name
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    DetailItem(
+                        label = "Episodes",
+                        value = "${character.episode.size}"
+                    )
+                }
+            }
+
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 16.dp),
+                thickness = DividerDefaults.Thickness, color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            // Локации в полную ширину
+            DetailItem(
+                label = "Origin",
+                value = character.origin
+            )
 
-            if (status != null)
-                StatusIndicator(status)
-            else
-                Text(
-                    text = value,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
-                )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            DetailItem(
+                label = "Last known location",
+                value = character.location
+            )
+        }
+    }
+}
+
+@Composable
+private fun DetailItem(
+    label: String,
+    value: String,
+    status: CharacterStatus? = null
+) {
+    Column {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        if (status != null) {
+            StatusIndicator(status)
+        } else {
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 }
