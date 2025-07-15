@@ -32,7 +32,6 @@ object DatabaseModule {
             "rick_morty.db"
         )
             .addTypeConverter(converters)
-            .fallbackToDestructiveMigration(true)
             .build()
     }
 
