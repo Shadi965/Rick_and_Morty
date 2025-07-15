@@ -57,7 +57,6 @@ fun CharacterFilterSection(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        // Поле поиска с кнопкой разворачивания
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -102,7 +101,6 @@ fun CharacterFilterSection(
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Кнопка разворачивания/сворачивания
             IconButton(
                 onClick = onToggleExpanded,
                 modifier = Modifier.size(32.dp)
@@ -114,7 +112,6 @@ fun CharacterFilterSection(
             }
         }
 
-        // Расширенные фильтры
         AnimatedVisibility(
             visible = isExpanded,
             enter = expandVertically(),
@@ -125,7 +122,6 @@ fun CharacterFilterSection(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Фильтр по типу
                 OutlinedTextField(
                     value = filter.type ?: "",
                     onValueChange = { type ->
@@ -139,7 +135,6 @@ fun CharacterFilterSection(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Фильтр по статусу
                 FilterGroup(
                     title = "Status",
                     options = CharacterStatus.entries.map { it.name },
@@ -152,7 +147,6 @@ fun CharacterFilterSection(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Фильтр по видам
                 FilterGroup(
                     title = "Species",
                     options = CharacterSpecies.entries.map { it.name },
@@ -165,7 +159,6 @@ fun CharacterFilterSection(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Фильтр по полу
                 FilterGroup(
                     title = "Gender",
                     options = CharacterGender.entries.map { it.name },
@@ -178,7 +171,6 @@ fun CharacterFilterSection(
             }
         }
 
-        // Индикатор активных фильтров
         if (filter.hasAdvancedFilters() && !isExpanded) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -217,14 +209,12 @@ private fun FilterGroup(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                // Опция "Any"
                 FilterChip(
                     selected = selectedOption == null,
                     onClick = { onOptionSelected(null) },
                     label = { Text("Any") }
                 )
 
-                // Остальные опции
                 options.forEach { option ->
                     FilterChip(
                         selected = selectedOption == option,

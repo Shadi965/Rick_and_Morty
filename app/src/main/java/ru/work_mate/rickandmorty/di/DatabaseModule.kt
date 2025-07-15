@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    // TODO: Проверить другой способ @Inject в Converters
     @Provides
     fun provideConverters(moshi: Moshi): Converters {
         return Converters(moshi)

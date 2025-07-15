@@ -85,7 +85,6 @@ private fun CharacterDetailContent(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        // Character Image
         AsyncImage(
             model = character.image,
             contentDescription = character.name,
@@ -98,7 +97,6 @@ private fun CharacterDetailContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Character Name
         Text(
             text = character.name,
             style = MaterialTheme.typography.headlineMedium,
@@ -108,7 +106,6 @@ private fun CharacterDetailContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Grouped Character Information
         CharacterInfoCard(character = character)
     }
 }
@@ -125,7 +122,6 @@ private fun CharacterInfoCard(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // Основная информация в две колонки
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -177,7 +173,6 @@ private fun CharacterInfoCard(
                 thickness = DividerDefaults.Thickness, color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
 
-            // Локации в полную ширину
             DetailItem(
                 label = "Origin",
                 value = character.origin
