@@ -1,5 +1,10 @@
 package ru.work_mate.rickandmorty.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +25,20 @@ fun NavigationGraph(
         navController = navController,
         startDestination = CharacterListRoute
     ) {
-        composable<CharacterListRoute> {
+        composable<CharacterListRoute>(
+            enterTransition = {
+                scaleIn(
+                    initialScale = 1.1f,
+                    animationSpec = tween(300)
+                ) + fadeIn(animationSpec = tween(300))
+            },
+            exitTransition = {
+                scaleOut(
+                    targetScale = 0.9f,
+                    animationSpec = tween(300)
+                ) + fadeOut(animationSpec = tween(300))
+            }
+        ) {
             CharacterListScreen(
                 onCharacterClick = { characterId ->
                     navController.navigate(CharacterDetailRoute(characterId))
@@ -28,7 +46,20 @@ fun NavigationGraph(
             )
         }
 
-        composable<CharacterDetailRoute> { backStackEntry ->
+        composable<CharacterDetailRoute>(
+            enterTransition = {
+                scaleIn(
+                    initialScale = 0.9f,
+                    animationSpec = tween(300)
+                ) + fadeIn(animationSpec = tween(300))
+            },
+            exitTransition = {
+                scaleOut(
+                    targetScale = 1.1f,
+                    animationSpec = tween(300)
+                ) + fadeOut(animationSpec = tween(300))
+            }
+        ) { backStackEntry ->
             val route = backStackEntry.toRoute<CharacterDetailRoute>()
             CharacterDetailScreen(
                 characterId = route.characterId,
@@ -37,23 +68,5 @@ fun NavigationGraph(
                 }
             )
         }
-
-//        composable<FilterRoute> { backStackEntry ->
-//            val route = backStackEntry.toRoute<FilterRoute>()
-//            FilterScreen(
-//                initialFilter = route.currentFilter,
-//                onApplyFilter = { filter ->
-//                    // Возвращаемся на главный экран и применяем фильтр
-//                    navController.popBackStack<CharacterListRoute>(inclusive = false)
-//                    // Передаем результат обратно
-//                    navController.currentBackStackEntry
-//                        ?.savedStateHandle
-//                        ?.set("applied_filter", filter)
-//                },
-//                onBackClick = {
-//                    navController.popBackStack()
-//                }
-//            )
-//        }
     }
 }
